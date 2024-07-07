@@ -1,0 +1,4 @@
+elasticsearch*/
+*.pyc
+.venv/
+*.crt
