@@ -2,3 +2,4 @@ flask
 pre-commit
 requests
 elasticsearch
+python-dotenv
