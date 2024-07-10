@@ -1,27 +1,12 @@
-import os
-from logging import DEBUG, basicConfig, error
-from pathlib import Path
-
-from dotenv import load_dotenv
-from elasticsearch import Elasticsearch
 from flask import Flask
 
+from backend.api import cli
 
-def main():
-    basicConfig(level=DEBUG)
 
-    dotenv_path = (Path(__file__).parents[1] / ".env").resolve()
-    load_dotenv(dotenv_path=dotenv_path)
-    username = "elastic"
-    password = os.getenv("ELASTIC_PASSWORD")
-    elastic_url = os.getenv("ELASTIC_URL")
-
-    client = Elasticsearch(elastic_url, basic_auth=(username, password))
-    print(client.info())
-
+def create_app():
     app = Flask(__name__)
-    app.run(debug=True)
+    app.register_blueprint(cli.bp)
+    return app
 
 
-if __name__ == "__main__":
-    main()
+app = create_app()

@@ -2,3 +2,6 @@ elasticsearch*/
 *.pyc
 .venv/
 *.crt
+*.disabled
+*.bat
+**/__init__.py
