@@ -4,7 +4,7 @@ import "./App.css";
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [response, setResponse] = useState(null);
+  const [textList, setTextList] = useState([]);
 
   const handleSearchInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -13,23 +13,27 @@ const SearchPage = () => {
   const handleSearchSubmit = async () => {
     console.log("Searching for:", searchTerm);
     const formData = new URLSearchParams();
-    formData.append('query', searchTerm);
+    formData.append("query", searchTerm);
 
     try {
       const res = await fetch("http://localhost:5000/", {
-        method: 'POST',
+        method: "POST",
         body: formData,
         headers: {
-          "Content-Type": 'application/x-www-form-urlencoded',
+          "Content-Type": "application/x-www-form-urlencoded",
         },
       });
       const result = await res.json();
-      setResponse(result);
-      console.log(result)
+      console.log(result);
+
+      const quotes = [];
+      for (const element of result) {
+        quotes.push(element["quote"]);
+      }
+      setTextList(quotes);
     } catch (error) {
       console.error("Error:", error);
     }
-
   };
 
   return (
@@ -49,6 +53,13 @@ const SearchPage = () => {
             Search
           </button>
         </div>
+      </div>
+      <div className="list-container">
+        <ul>
+          {textList.map((text, index) => (
+            <li key={index}>{text}</li>
+          ))}
+        </ul>
       </div>
     </div>
   );
