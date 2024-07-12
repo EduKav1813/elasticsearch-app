@@ -46,3 +46,6 @@ class Search:
 
     def retrieve_document(self, id):
         return self.es.get(index="my_documents", id=id)
+
+
+search_engine = Search()
