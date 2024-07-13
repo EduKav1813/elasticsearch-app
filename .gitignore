@@ -4,4 +4,3 @@ elasticsearch*/
 *.crt
 *.disabled
 *.bat
-**/__init__.py
