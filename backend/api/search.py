@@ -16,9 +16,9 @@ def get_quotes():
     )
 
     num_quotes = len(results["hits"]["hits"])
+    quotes_list = []
     if num_quotes > 0:
         debug(f"Found {num_quotes} quotes:")
-        quotes_list = []
 
         for index, result in enumerate(results["hits"]["hits"], start=1):
             quote = result["_source"]["quote"]
