@@ -1,11 +1,10 @@
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
-
 from app import create_app
 from backend.logging_manager import setup_logging
 from backend.search import Search
+from dotenv import load_dotenv
 
 
 def main():

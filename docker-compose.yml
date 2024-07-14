@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+  elasticsearch:
+    container_name: elasticsearch-quotes
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.2
+    environment:
+      - ELASTIC_PASSWORD=elastic
+      - discovery.type=single-node
+      - xpack.security.http.ssl.enabled=false
+      - xpack.license.self_generated.type=trial
+
+    networks:
+      - elastic-quotes-net
+    ports:
+      - "127.0.0.1:9201:9200"
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'curl -u elastic:elastic -s http://127.0.0.1:9200/_cluster/health | grep -q ''"status":"green"''',
+        ]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 5
+
+  backend:
+    build:
+      dockerfile: Dockerfile.backend
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_ENV: development
+      USE_ENV: False
+      ELASTIC_URL: http://elasticsearch:9200
+      ELASTIC_PASSWORD: elastic
+      
+    networks:
+      - elastic-quotes-net
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  frontend:
+    build:
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - elastic-quotes-net
+    environment:
+      REACT_APP_BACKEND_API_URL: http://backend:5000
+
+
+
+networks:
+  elastic-quotes-net:
+    driver: bridge

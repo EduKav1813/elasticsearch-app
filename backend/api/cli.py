@@ -1,9 +1,8 @@
 from logging import info
 
-from flask.blueprints import Blueprint
-
 from backend.logging_manager import setup_logging
 from backend.searchengine import search_engine
+from flask.blueprints import Blueprint
 
 bp = Blueprint("cli", __name__)
 

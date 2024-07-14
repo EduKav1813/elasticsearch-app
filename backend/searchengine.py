@@ -4,9 +4,8 @@ from logging import debug, info
 from pathlib import Path
 from pprint import pformat
 
-from elasticsearch import Elasticsearch
-
 from backend.env_manager import setup_env
+from elasticsearch import Elasticsearch
 
 
 class Search:

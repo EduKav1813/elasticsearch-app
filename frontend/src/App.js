@@ -6,6 +6,9 @@ const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [textList, setTextList] = useState([]);
 
+  const apiUrl=process.env.REACT_APP_BACKEND_API_URL;
+  console.log("Backend URL: " + apiUrl)
+
   const handleSearchInputChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -16,7 +19,7 @@ const SearchPage = () => {
     formData.append("query", searchTerm);
 
     try {
-      const res = await fetch("http://localhost:5000/", {
+      const res = await fetch(apiUrl + "/", {
         method: "POST",
         body: formData,
         headers: {
